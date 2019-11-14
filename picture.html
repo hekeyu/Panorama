@@ -1,0 +1,81 @@
+ <!DOCTYPE html>
+<html> 
+	<head>
+		<meta charset="utf-8" />
+		<title>魔方</title>
+	<style>  
+  	body{                 
+  		margin:0px;    
+  		overflow: hidden;
+  	}    
+  	canvas{              
+  		margin:0px;
+  		position:absolute;  
+  	}       
+  	button{    
+  		margin:0px;    
+  		position:fixed;  
+  		background-color: white;
+  	}    
+  </style> 
+	</head>
+<body>   
+ 
+
+<script id="planeVertex" type="x-shader/x-vertex">
+    attribute vec3 a_Position;
+	uniform mat4 u_MvpMatrix;
+	varying vec3 v_Pos;
+	void main(void){ 
+		gl_Position = u_MvpMatrix * vec4(a_Position * 1.0, 1.0);
+	  v_Pos = a_Position;
+	}             
+</script>                                               
+                                 
+<script id="planeFragment" type="x-shader/x-fragment">
+	#ifdef GL_ES               
+	precision highp float;    
+	#endif      
+	uniform sampler2D u_Sampler;
+	uniform vec3 u_Eye;      
+	
+	varying vec3 v_Pos;                    
+	void main(void){  
+	 	gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);   
+	 	gl_FragColor = texture2D(u_Sampler,v_Pos.xy * 0.5 + 0.5);
+	}    
+</script>
+
+<script id="drawVertex" type="x-shader/x-vertex">
+    attribute vec2 a_Position;
+    attribute vec2 a_Texture;
+	varying vec2 v_Texture;      
+	void main(void){ 
+		a_Texture;
+		gl_Position = vec4(a_Position.xy, 0.0, 1.0);
+
+	    v_Texture = a_Texture; 
+	} 
+</script>           
+                                     
+<script id="drawFragment" type="x-shader/x-fragment">
+	#ifdef GL_ES               
+	precision highp float;     
+	#endif        
+	uniform sampler2D u_Sampler;                              
+	varying vec2 v_Texture;                                 
+	void main(void){    
+	 	gl_FragColor = texture2D(u_Sampler,v_Texture * 0.5 + 0.5);
+	}     
+</script>
+<canvas id = "canvas"></canvas>
+<script type="text/javascript" src = "js/vector.js"></script>
+<script type="text/javascript" src="js/3Dtest.js" ></script>
+<script type="text/javascript" src = "js/Matrix.js" ></script> 
+<script type="text/javascript" src = "js/picture.js"></script>    
+<script>                           
+                                                                    
+</script>       
+</body>                 
+</html>       
+  

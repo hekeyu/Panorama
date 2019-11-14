@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+<script src = "js/Matrix.js" type = "text/javascript"></script>
+<script>
+	
+function pointTransform(u, v){
+	return [Math.cos(u * Math.PI) * Math.sin(v * Math.PI), Math.cos(v * Math.PI), Math.sin(u * Math.PI) * Math.sin(v * Math.PI)];
+}
+
+function distance(vecA, vecB){
+	return Math.pow(vecA[0] - vecB[0], 2) + Math.pow(vecA[1] - vecB[1], 2) + Math.pow(vecA[2] - vecB[2], 2);
+}
+
+
+ 
+function calculate(vec, num){
+    
+   var mark;
+   var startX, startY, endX, endY;
+   
+   if(distance(pointTransform(0.5, 0.5), vec) < distance(pointTransform(1.5, 0.5), vec)){
+   	     startX = 0.0; startY = 0.0;
+   	     endX = 1.0; endY = 1.0;
+   	     mark = 1;
+   }
+   else{
+   	     startX = 1.0; startY = 0.0;
+   	     endX = 2.0; endY = 1.0;
+   	     mark = 2;
+   }
+    
+  // console.log(mark)
+    
+   for(var n = 0; n < num; n++){
+   	  var gapX = (endX - startX) / 2;
+   	  var gapY = (endY - startY) / 2; 
+   	  var beginX = startX + gapX / 2;
+   	  var beginY = startY + gapY / 2;
+   	  
+   	  var dist = 9999999;
+   	  
+   	  var a, b;
+   	  
+   	  for(var i = 0; i < 2; i++)
+   	  	for(var j = 0; j < 2; j++){
+   	  		var temp = distance(pointTransform(beginX + j * gapX, beginY + i * gapY), vec);
+   	  		if(temp < dist){
+   	  		   dist = temp;
+   	  		   a = i;
+   	  		   b = j;
+   	  		  }
+   	  	}
+   	  startX += b * gapX;
+   	  startY += a * gapY;
+   	  endX = startX + gapX;
+   	  endY = startY + gapY;
+   	  mark = mark * 4 - 3 + a * 2 + b;
+   	     
+   }  
+   return {
+   	  src:"img/"+ num + "/" +mark +".jpg",
+   	  startX: startX,
+   	  startY:startY,
+   	  endX:endX,
+   	  endY:endY 
+   }
+}  
+
+</script> 
+	</body>  
+</html>
